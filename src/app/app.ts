@@ -1,12 +1,14 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Layout } from './layout/layout/layout';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  imports: [Layout],
+  templateUrl: 'app.html',
 })
-export class App {
-  protected readonly title = signal('coffe-admin');
+export class App implements OnInit {
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }
