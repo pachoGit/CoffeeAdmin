@@ -1,0 +1,34 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { ListPurchaseRequest } from './request/list-purchase.request';
+import { Observable } from 'rxjs';
+import { ListPurchaseResponse } from './response/list-purchase.response';
+import { environment } from '../../../environments/environment';
+import { CoffeeResponse } from '../coffee-response';
+import { CreatePurchaseRequest } from './request/create-purchase.request';
+import { CreatePurchaseResponse } from './response/create-purchase.response';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PurchaseService {
+  private http = inject(HttpClient);
+
+  private baseUrl: string = environment.URL_API + '/api/purchase';
+
+  public create(
+    request: CreatePurchaseRequest,
+  ): Observable<CoffeeResponse<CreatePurchaseResponse>> {
+    let url = this.baseUrl;
+    return this.http.post<CoffeeResponse<CreatePurchaseResponse>>(url, request);
+  }
+
+  public getById(): void {}
+
+  public list(request?: ListPurchaseRequest): Observable<CoffeeResponse<ListPurchaseResponse>> {
+    let url = this.baseUrl + '/list';
+    return this.http.get<CoffeeResponse<ListPurchaseResponse>>(url, {
+      params: { ...(request as any) },
+    });
+  }
+}

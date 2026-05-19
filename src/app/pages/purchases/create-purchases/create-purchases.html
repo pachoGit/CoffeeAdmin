@@ -1,0 +1,248 @@
+<section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+  <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+      <div class="p-4">
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Nueva Compra</h1>
+
+        <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
+          <div class="mb-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Información de la Compra</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label for="coffeeProducerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Productor de Café
+                </label>
+                <select
+                  id="coffeeProducerId"
+                  formControlName="coffeeProducerId"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                  <option [ngValue]="null">Seleccionar productor</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="purchaseDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Fecha de Compra
+                </label>
+                <input
+                  type="date"
+                  id="purchaseDate"
+                  formControlName="purchaseDate"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                />
+              </div>
+
+              <div>
+                <label for="totalCost" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Costo Total
+                </label>
+                <input
+                  type="number"
+                  id="totalCost"
+                  formControlName="totalCost"
+                  step="0.01"
+                  min="0"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-medium text-gray-900 dark:text-white">Detalles de Compra</h2>
+              <button
+                type="button"
+                (click)="addDetailPurchase()"
+                class="inline-flex items-center text-white bg-brand hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium font-medium rounded-lg text-sm px-4 py-2.5 focus:outline-none"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Agregar Detalle
+              </button>
+            </div>
+
+            @if (detailPurchases.length === 0) {
+              <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300">
+                No hay detalles de compra. Agregue al menos un detalle para continuar.
+              </div>
+            } @else {
+              @for (detail of detailPurchases.controls; track detail; let i = $index) {
+                <div [formGroupName]="'detailPurchases'" class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-md font-medium text-gray-900 dark:text-white">Detalle #{{ i + 1 }}</h3>
+                    <button
+                      type="button"
+                      (click)="removeDetailPurchase(i)"
+                      class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div [formGroupName]="i">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+                      <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Score SCA
+                        </label>
+                        <input
+                          type="number"
+                          formControlName="scoreSCA"
+                          step="0.01"
+                          min="0"
+                          max="100"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                        />
+                      </div>
+
+                      <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Tamaño de Malla
+                        </label>
+                        <input
+                          type="number"
+                          formControlName="screenSize"
+                          step="0.01"
+                          min="0"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                        />
+                      </div>
+
+                      <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Humedad %
+                        </label>
+                        <input
+                          type="number"
+                          formControlName="humidity"
+                          step="0.01"
+                          min="0"
+                          max="100"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                        />
+                      </div>
+
+                      <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Variedad de Café
+                        </label>
+                        <select
+                          formControlName="coffeeVarietyId"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                        >
+                          <option [ngValue]="null">Seleccionar variedad</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Tipo de Café
+                        </label>
+                        <select
+                          formControlName="coffeeTypeId"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                        >
+                          <option [ngValue]="0">Seleccionar tipo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div formGroupName="purchaseBatch">
+                      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Información del Lote</h4>
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Unidad de Medida
+                          </label>
+                          <select
+                            formControlName="measurementUnitCoffeeId"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          >
+                            <option [ngValue]="null">Seleccionar unidad</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Cantidad
+                          </label>
+                          <input
+                            type="number"
+                            formControlName="amount"
+                            step="0.01"
+                            min="0"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Precio Mercado
+                          </label>
+                          <input
+                            type="number"
+                            formControlName="coffeeMarketPrice"
+                            step="0.01"
+                            min="0"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Precio Compra Lote
+                          </label>
+                          <input
+                            type="number"
+                            formControlName="batchPurchasePrice"
+                            step="0.01"
+                            min="0"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Precio Venta Esperado
+                          </label>
+                          <input
+                            type="number"
+                            formControlName="expectedBatchSellingPrice"
+                            step="0.01"
+                            min="0"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+
+          <div class="flex justify-end gap-4">
+            <button
+              type="button"
+              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-600"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              [disabled]="purchaseForm.invalid"
+              class="px-4 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Guardar Compra
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
