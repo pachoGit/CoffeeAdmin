@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { PurchaseFormManager } from '../common/purchase-form';
 import { PurchaseService } from '../../../services/purchases/purchase-service';
 import { CoffeeProducerService } from '../../../services/coffee-producer/coffee-producer.service';
@@ -18,7 +19,7 @@ import { DataSelectMeasurementUnitCoffeeResponse } from '../../../services/measu
   templateUrl: './create-purchases.html',
   styleUrl: './create-purchases.css',
 })
-export class CreatePurchases implements OnInit {
+export class CreatePurchases implements OnInit, OnDestroy {
   private purchaseService = inject(PurchaseService);
   private coffeeProducerService = inject(CoffeeProducerService);
   private coffeeTypeService = inject(CoffeeTypeService);
@@ -27,14 +28,38 @@ export class CreatePurchases implements OnInit {
 
   private purchaseFormManager = new PurchaseFormManager();
   public purchaseForm = this.purchaseFormManager.getForm();
+  private priceSubscription?: Subscription;
 
   public coffeeProducers = signal<DataSelectCoffeeProducerResponse[]>([]);
   public coffeeTypes = signal<DataSelectCoffeeTypeResponse[]>([]);
   public coffeeVarieties = signal<DataSelectCoffeeVarietyResponse[]>([]);
   public measurementUnits = signal<DataSelectMeasurementUnitCoffeeResponse[]>([]);
 
+  public detailPrices = signal<number[]>([]);
+
+  public formattedTotalCost = computed(() =>
+    this.purchaseFormManager.formatPrice(
+      this.detailPrices().reduce((sum, price) => sum + price, 0),
+    ),
+  );
+
   ngOnInit(): void {
     this.loadSelects();
+    this.setupPriceTracking();
+  }
+
+  ngOnDestroy(): void {
+    this.priceSubscription?.unsubscribe();
+    this.purchaseFormManager.destroy();
+  }
+
+  private setupPriceTracking(): void {
+    this.priceSubscription = this.purchaseForm.valueChanges.subscribe(() => {
+      const prices = this.detailPurchases.controls.map((_, i) =>
+        this.purchaseFormManager.getDetailPrice(i),
+      );
+      this.detailPrices.set(prices);
+    });
   }
 
   private loadSelects(): void {
@@ -73,6 +98,10 @@ export class CreatePurchases implements OnInit {
 
   removeDetailPurchase(index: number): void {
     this.purchaseFormManager.removeDetailPurchase(index);
+  }
+
+  formatPrice(value: number): string {
+    return this.purchaseFormManager.formatPrice(value);
   }
 
   onSubmit(): void {

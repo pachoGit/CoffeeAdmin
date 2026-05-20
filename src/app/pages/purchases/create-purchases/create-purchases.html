@@ -20,13 +20,26 @@
                 <select
                   id="coffeeProducerId"
                   formControlName="coffeeProducerId"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  [class]="
+                    purchaseForm.get('coffeeProducerId')?.invalid &&
+                    purchaseForm.get('coffeeProducerId')?.touched
+                      ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
+                      : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
+                  "
                 >
                   <option [ngValue]="null">Seleccionar productor</option>
                   @for (producer of coffeeProducers(); track producer.id) {
                     <option [ngValue]="producer.id">{{ producer.fullName }}</option>
                   }
                 </select>
+                @if (
+                  purchaseForm.get('coffeeProducerId')?.invalid &&
+                  purchaseForm.get('coffeeProducerId')?.touched
+                ) {
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">
+                    El productor es requerido
+                  </p>
+                }
               </div>
 
               <div>
@@ -40,8 +53,19 @@
                   type="date"
                   id="purchaseDate"
                   formControlName="purchaseDate"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  [class]="
+                    purchaseForm.get('purchaseDate')?.invalid &&
+                    purchaseForm.get('purchaseDate')?.touched
+                      ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
+                      : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
+                  "
                 />
+                @if (
+                  purchaseForm.get('purchaseDate')?.invalid &&
+                  purchaseForm.get('purchaseDate')?.touched
+                ) {
+                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">La fecha es requerida</p>
+                }
               </div>
 
               <div>
@@ -52,12 +76,11 @@
                   Costo Total
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   id="totalCost"
-                  formControlName="totalCost"
-                  step="0.01"
-                  min="0"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  [value]="formattedTotalCost()"
+                  readonly
+                  class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300 cursor-not-allowed"
                 />
               </div>
             </div>
@@ -90,7 +113,7 @@
                 No hay detalles de compra. Agregue al menos un detalle para continuar.
               </div>
             } @else {
-              @for (detail of detailPurchases.controls; track detail; let i = $index) {
+              @for (detail of detailPurchases.controls; track $index; let i = $index) {
                 <div
                   [formGroupName]="'detailPurchases'"
                   class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
@@ -179,13 +202,25 @@
                         </label>
                         <select
                           formControlName="coffeeTypeId"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          [class]="
+                            detail.get('coffeeTypeId')?.invalid &&
+                            detail.get('coffeeTypeId')?.touched
+                              ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
+                              : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white'
+                          "
                         >
-                          <option [ngValue]="0">Seleccionar tipo</option>
+                          <option [ngValue]="null">Seleccionar tipo</option>
                           @for (type of coffeeTypes(); track type.id) {
                             <option [ngValue]="type.id">{{ type.name }}</option>
                           }
                         </select>
+                        @if (
+                          detail.get('coffeeTypeId')?.invalid && detail.get('coffeeTypeId')?.touched
+                        ) {
+                          <p class="mt-1 text-sm text-red-600 dark:text-red-400">
+                            El tipo es requerido
+                          </p>
+                        }
                       </div>
                     </div>
 
@@ -202,13 +237,26 @@
                           </label>
                           <select
                             formControlName="measurementUnitCoffeeId"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                            [class]="
+                              detail.get('purchaseBatch.measurementUnitCoffeeId')?.invalid &&
+                              detail.get('purchaseBatch.measurementUnitCoffeeId')?.touched
+                                ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
+                                : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white'
+                            "
                           >
                             <option [ngValue]="null">Seleccionar unidad</option>
                             @for (unit of measurementUnits(); track unit.id) {
                               <option [ngValue]="unit.id">{{ unit.name }}</option>
                             }
                           </select>
+                          @if (
+                            detail.get('purchaseBatch.measurementUnitCoffeeId')?.invalid &&
+                            detail.get('purchaseBatch.measurementUnitCoffeeId')?.touched
+                          ) {
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">
+                              La unidad es requerida
+                            </p>
+                          }
                         </div>
 
                         <div>
@@ -220,21 +268,6 @@
                           <input
                             type="number"
                             formControlName="amount"
-                            step="0.01"
-                            min="0"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
-                          />
-                        </div>
-
-                        <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Precio Mercado
-                          </label>
-                          <input
-                            type="number"
-                            formControlName="coffeeMarketPrice"
                             step="0.01"
                             min="0"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
@@ -260,6 +293,21 @@
                           <label
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
+                            Precio Mercado
+                          </label>
+                          <input
+                            type="number"
+                            formControlName="coffeeMarketPrice"
+                            step="0.01"
+                            min="0"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Precio Venta Esperado
                           </label>
                           <input
@@ -271,6 +319,15 @@
                           />
                         </div>
                       </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-brand-light dark:bg-gray-600 rounded-md">
+                      <p class="text-sm font-medium text-gray-900 dark:text-white">
+                        Precio del detalle:
+                        <span class="text-brand dark:text-brand-light font-semibold">
+                          {{ formatPrice(detailPrices()[i]) }}
+                        </span>
+                      </p>
                     </div>
                   </div>
                 </div>

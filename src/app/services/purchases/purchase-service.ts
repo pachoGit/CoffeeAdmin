@@ -23,7 +23,7 @@ export class PurchaseService {
     return this.http.post<CoffeeResponse<CreatePurchaseResponse>>(url, request);
   }
 
-  public getById(): void {}
+  public getById(id: number) {}
 
   public list(request?: ListPurchaseRequest): Observable<CoffeeResponse<ListPurchaseResponse>> {
     let url = this.baseUrl + '/list';
