@@ -3,6 +3,7 @@ import { DataListPurchaseResponse } from '../../../services/purchases/response/l
 import { PurchaseService } from '../../../services/purchases/purchase-service';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'coffee-list-purchases',
@@ -17,8 +18,8 @@ export class ListPurchases implements OnInit {
 
   ngOnInit(): void {
     this.purchaseService.list().subscribe((response) => {
-      console.log(response);
       this.purchases.set(response.data.result);
+      setTimeout(() => initFlowbite(), 0);
     });
   }
 }

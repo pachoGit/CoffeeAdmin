@@ -1,0 +1,115 @@
+<section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+  <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+      <div class="p-4">
+        @if (loading()) {
+          <div class="flex justify-center items-center py-12">
+            <p class="text-gray-500 dark:text-gray-400">Cargando...</p>
+          </div>
+        } @else if (purchase()) {
+          @let data = purchase()!;
+
+          <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+              Compra #{{ data.id }}
+            </h1>
+            <a
+              routerLink="/purchases"
+              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-600"
+            >
+              Volver
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Productor</p>
+              <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ data.coffeeProducer.firstName }}
+                {{ data.coffeeProducer.lastName }}
+              </p>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fecha de Compra</p>
+              <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ data.purchaseDate | date }}
+              </p>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Precio Total</p>
+              <p class="text-lg font-semibold text-brand dark:text-brand-light">
+                {{ formatPrice(data.totalPrice) }}
+              </p>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Creado</p>
+              <p class="text-base text-gray-900 dark:text-white">
+                {{ data.createdAt | date: 'medium' }}
+              </p>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Actualizado</p>
+              <p class="text-base text-gray-900 dark:text-white">
+                {{ data.updateAt | date: 'medium' }}
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+              Detalles de Compra
+            </h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-4 py-3">#</th>
+                    <th scope="col" class="px-4 py-3">Score SCA</th>
+                    <th scope="col" class="px-4 py-3">Tamaño</th>
+                    <th scope="col" class="px-4 py-3">Humedad</th>
+                    <th scope="col" class="px-4 py-3">Variedad</th>
+                    <th scope="col" class="px-4 py-3">Tipo</th>
+                    <th scope="col" class="px-4 py-3">Unidad</th>
+                    <th scope="col" class="px-4 py-3">Cantidad</th>
+                    <th scope="col" class="px-4 py-3">Precio Mercado</th>
+                    <th scope="col" class="px-4 py-3">Precio Venta Esp.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (detail of data.detailPurchases; track detail.id; let i = $index) {
+                    <tr class="border-b dark:border-gray-700">
+                      <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                        {{ i + 1 }}
+                      </td>
+                      <td class="px-4 py-3">{{ detail.scoreSCA }}</td>
+                      <td class="px-4 py-3">{{ detail.screenSize }}</td>
+                      <td class="px-4 py-3">{{ detail.humidity }}%</td>
+                      <td class="px-4 py-3">
+                        {{ detail.coffeeVariety?.name ?? '-' }}
+                      </td>
+                      <td class="px-4 py-3">{{ detail.coffeeType.name }}</td>
+                      <td class="px-4 py-3">
+                        {{ detail.purchase?.measurementUnit?.name ?? '-' }}
+                      </td>
+                      <td class="px-4 py-3">{{ detail.purchase?.amount ?? '-' }}</td>
+                      <td class="px-4 py-3">
+                        {{ formatNullablePrice(detail.purchase?.coffeeMarketPrice) }}
+                      </td>
+                      <td class="px-4 py-3">
+                        {{ formatNullablePrice(detail.purchase?.expectedBatchSellingPrice) }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        } @else {
+          <div class="flex justify-center items-center py-12">
+            <p class="text-gray-500 dark:text-gray-400">Compra no encontrada</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

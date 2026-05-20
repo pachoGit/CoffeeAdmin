@@ -11,4 +11,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./create-purchases/create-purchases').then((c) => c.CreatePurchases),
   },
+
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./view-purchases/view-purchases').then((c) => c.ViewPurchases),
+  },
 ];
