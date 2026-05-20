@@ -6,10 +6,15 @@
 
         <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
           <div class="mb-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Información de la Compra</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+              Información de la Compra
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label for="coffeeProducerId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label
+                  for="coffeeProducerId"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
                   Productor de Café
                 </label>
                 <select
@@ -22,7 +27,10 @@
               </div>
 
               <div>
-                <label for="purchaseDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label
+                  for="purchaseDate"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
                   Fecha de Compra
                 </label>
                 <input
@@ -34,7 +42,10 @@
               </div>
 
               <div>
-                <label for="totalCost" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label
+                  for="totalCost"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
                   Costo Total
                 </label>
                 <input
@@ -58,28 +69,45 @@
                 class="inline-flex items-center text-white bg-brand hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium font-medium rounded-lg text-sm px-4 py-2.5 focus:outline-none"
               >
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 Agregar Detalle
               </button>
             </div>
 
             @if (detailPurchases.length === 0) {
-              <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300">
+              <div
+                class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+              >
                 No hay detalles de compra. Agregue al menos un detalle para continuar.
               </div>
             } @else {
               @for (detail of detailPurchases.controls; track detail; let i = $index) {
-                <div [formGroupName]="'detailPurchases'" class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div
+                  [formGroupName]="'detailPurchases'"
+                  class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                >
                   <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-md font-medium text-gray-900 dark:text-white">Detalle #{{ i + 1 }}</h3>
+                    <h3 class="text-md font-medium text-gray-900 dark:text-white">
+                      Detalle #{{ i + 1 }}
+                    </h3>
                     <button
                       type="button"
                       (click)="removeDetailPurchase(i)"
                       class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -102,7 +130,7 @@
 
                       <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Tamaño de Malla
+                          Tamaño de grano
                         </label>
                         <input
                           type="number"
@@ -153,10 +181,14 @@
                     </div>
 
                     <div formGroupName="purchaseBatch">
-                      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Información del Lote</h4>
+                      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Información del Lote
+                      </h4>
                       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
-                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Unidad de Medida
                           </label>
                           <select
@@ -168,7 +200,9 @@
                         </div>
 
                         <div>
-                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Cantidad
                           </label>
                           <input
@@ -181,7 +215,9 @@
                         </div>
 
                         <div>
-                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Precio Mercado
                           </label>
                           <input
@@ -194,7 +230,9 @@
                         </div>
 
                         <div>
-                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Precio Compra Lote
                           </label>
                           <input
@@ -207,7 +245,9 @@
                         </div>
 
                         <div>
-                          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Precio Venta Esperado
                           </label>
                           <input

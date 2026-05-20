@@ -9,6 +9,7 @@ import { ListCoffeeProducerRequest } from './request/list-coffee-producer.reques
 import { GetCoffeeProducerByIdResponse } from './response/get-coffee-producer-by-id.response';
 import { UpdateCoffeeProducerRequest } from './request/update-coffee-producer.request';
 import { UpdateCoffeeProducerResponse } from './response/update-coffee-producer.response';
+import { SelectCoffeeProducerResponse } from './response/select-coffee-producer.response';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,10 @@ export class CoffeeProducerService {
   public delete(id: number): Observable<CoffeeResponse<boolean>> {
     let url = this.baseUrl + '/' + id;
     return this.http.delete<CoffeeResponse<boolean>>(url);
+  }
+
+  public select(): Observable<CoffeeResponse<SelectCoffeeProducerResponse>> {
+    let url = this.baseUrl + '/select';
+    return this.http.get<CoffeeResponse<SelectCoffeeProducerResponse>>(url);
   }
 }

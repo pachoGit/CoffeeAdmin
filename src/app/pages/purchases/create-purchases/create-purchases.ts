@@ -1,13 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  createPurchaseForm,
-  createDetailPurchaseForm,
-  addDetailPurchase,
-  removeDetailPurchase,
-  transformToRequest,
-} from '../common/purchase-form';
+import { PurchaseFormManager } from '../common/purchase-form';
 import { PurchaseService } from '../../../services/purchases/purchase-service';
 
 @Component({
@@ -18,27 +12,28 @@ import { PurchaseService } from '../../../services/purchases/purchase-service';
 })
 export class CreatePurchases {
   private purchaseService = inject(PurchaseService);
-  public purchaseForm: FormGroup = createPurchaseForm();
+  private purchaseFormManager = new PurchaseFormManager();
+  public purchaseForm = this.purchaseFormManager.getForm();
 
   get detailPurchases(): FormArray {
-    return this.purchaseForm.get('detailPurchases') as FormArray;
+    return this.purchaseFormManager.getDetailPurchasesArray();
   }
 
-  addDetailPurchase(): void {
-    addDetailPurchase(this.purchaseForm);
+  protected addDetailPurchase(): void {
+    this.purchaseFormManager.addDetailPurchase();
   }
 
-  removeDetailPurchase(index: number): void {
-    removeDetailPurchase(this.purchaseForm, index);
+  protected removeDetailPurchase(index: number): void {
+    this.purchaseFormManager.removeDetailPurchase(index);
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (this.purchaseForm.invalid) {
       this.purchaseForm.markAllAsTouched();
       return;
     }
 
-    const request = transformToRequest(this.purchaseForm);
+    const request = this.purchaseFormManager.transformToRequest();
     this.purchaseService.create(request).subscribe({
       next: (response) => {
         console.log('Purchase created successfully', response);
