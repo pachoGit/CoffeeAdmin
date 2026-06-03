@@ -2,12 +2,12 @@
   <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
       <div class="p-4">
-        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Nueva Compra</h1>
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Editar Compra</h1>
 
         <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
           <div class="mb-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-              Información de la Compra
+              Informaci&oacute;n de la Compra
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -15,7 +15,7 @@
                   for="coffeeProducerId"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Productor de Café
+                  Productor de Caf&eacute;
                 </label>
                 <select
                   id="coffeeProducerId"
@@ -156,7 +156,7 @@
 
                       <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Tamaño de grano
+                          Tama&ntilde;o de grano
                         </label>
                         <input
                           type="number"
@@ -183,7 +183,7 @@
 
                       <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Variedad de Café
+                          Variedad de Caf&eacute;
                         </label>
                         <select
                           formControlName="coffeeVarietyId"
@@ -198,7 +198,7 @@
 
                       <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Tipo de Café
+                          Tipo de Caf&eacute;
                         </label>
                         <select
                           formControlName="coffeeTypeId"
@@ -226,7 +226,7 @@
 
                     <div formGroupName="purchaseBatch">
                       <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                        Información del Lote
+                        Informaci&oacute;n del Lote
                       </h4>
                       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
@@ -338,6 +338,7 @@
           <div class="flex justify-end gap-4">
             <button
               type="button"
+              routerLink="/purchases"
               class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-600"
             >
               Cancelar
@@ -347,7 +348,7 @@
               [disabled]="purchaseForm.invalid"
               class="px-4 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Guardar Compra
+              Actualizar Compra
             </button>
           </div>
         </form>

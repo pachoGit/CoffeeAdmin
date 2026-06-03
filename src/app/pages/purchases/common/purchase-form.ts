@@ -1,8 +1,13 @@
-import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import {
   CreatePurchaseRequest,
   DetailPurchaseRequest,
 } from '../../../services/purchases/request/create-purchase.request';
+import {
+  UpdatePurchaseRequest,
+  DetailPurchaseUpdateRequest,
+} from '../../../services/purchases/request/update-purchase.request';
+import { GetPurchaseByIdResponse } from '../../../services/purchases/response/get-purchase-by-id.response';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import Currency from 'currency.js';
 
@@ -50,7 +55,7 @@ export class PurchaseFormManager {
 
   private createDetailPurchaseForm(): FormGroup {
     return new FormGroup({
-      scoreSCA: new FormControl<number>(0),
+      performance: new FormControl<number>(0),
       screenSize: new FormControl<number>(0),
       humidity: new FormControl<number>(0),
       coffeeVarietyId: new FormControl<number | null>(null),
@@ -101,7 +106,7 @@ export class PurchaseFormManager {
       purchaseDate: new Date(value.purchaseDate),
       totalCost: value.totalCost ?? 0,
       detailPurchases: value.detailPurchases.map((detail: DetailPurchaseRequest) => ({
-        scoreSCA: detail.scoreSCA ?? 0,
+        performance: detail.performance ?? 0,
         screenSize: detail.screenSize ?? 0,
         humidity: detail.humidity ?? 0,
         coffeeVarietyId: detail.coffeeVarietyId,
@@ -117,6 +122,74 @@ export class PurchaseFormManager {
           : null,
       })),
     };
+  }
+
+  populateForm(data: GetPurchaseByIdResponse): void {
+    const date = new Date(data.purchaseDate);
+    const dateStr = date.toISOString().split('T')[0];
+
+    this.form.patchValue({
+      coffeeProducerId: data.coffeeProducer.id,
+      purchaseDate: dateStr,
+    });
+
+    const detailArray = this.getDetailPurchasesArray();
+    detailArray.clear();
+
+    data.detailPurchases.forEach((detail) => {
+      const detailForm = this.createDetailPurchaseForm();
+      detailForm.patchValue({
+        performance: detail.scoreSCA,
+        screenSize: detail.screenSize,
+        humidity: detail.humidity,
+        coffeeVarietyId: detail.coffeeVariety?.id ?? null,
+        coffeeTypeId: detail.coffeeType.id,
+      });
+
+      if (detail.purchase) {
+        const batchForm = detailForm.get('purchaseBatch') as FormGroup;
+        batchForm.patchValue({
+          measurementUnitCoffeeId: detail.purchase.measurementUnit.id,
+          amount: detail.purchase.amount,
+          coffeeMarketPrice: detail.purchase.coffeeMarketPrice,
+          expectedBatchSellingPrice: detail.purchase.expectedBatchSellingPrice,
+        });
+      }
+
+      detailArray.push(detailForm);
+    });
+  }
+
+  transformToUpdateRequest(): UpdatePurchaseRequest {
+    const value = this.form.getRawValue();
+    return {
+      purchaseDate: new Date(value.purchaseDate),
+      totalCost: value.totalCost ?? 0,
+      detailPurchases: value.detailPurchases.map((detail: DetailPurchaseUpdateRequest) => ({
+        performance: detail.performance ?? 0,
+        screenSize: detail.screenSize ?? 0,
+        humidity: detail.humidity ?? 0,
+        coffeeVarietyId: detail.coffeeVarietyId,
+        coffeeTypeId: detail.coffeeTypeId ?? 0,
+        purchaseBatch: detail.purchaseBatch
+          ? {
+              measurementUnitCoffeeId: detail.purchaseBatch.measurementUnitCoffeeId ?? 0,
+              amount: detail.purchaseBatch.amount ?? 0,
+              coffeeMarketPrice: detail.purchaseBatch.coffeeMarketPrice ?? 0,
+              batchPurchasePrice: detail.purchaseBatch.batchPurchasePrice ?? 0,
+              expectedBatchSellingPrice: detail.purchaseBatch.expectedBatchSellingPrice,
+            }
+          : null,
+      })),
+    };
+  }
+
+  public coffeeProducerIdField(): AbstractControl {
+    return this.form.get('coffeeProducerId')!;
+  }
+
+  public coffeeProducerIdFieldValid(): boolean {
+    return this.coffeeProducerIdField().invalid && this.coffeeProducerIdField().touched;
   }
 
   destroy(): void {

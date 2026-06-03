@@ -17,4 +17,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./view-purchases/view-purchases').then((c) => c.ViewPurchases),
   },
+
+  {
+    path: ':id/edit',
+    loadComponent: () =>
+      import('./edit-purchases/edit-purchases').then((c) => c.EditPurchases),
+  },
 ];
