@@ -3,8 +3,13 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'coffee-producers',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+
+  {
+    path: 'home',
+    loadComponent: () => import('./pages/home/home').then((c) => c.HomeComponent),
   },
 
   {

@@ -1,0 +1,158 @@
+<section class="bg-white dark:bg-gray-800">
+  <div class="py-16 px-4 mx-auto max-w-screen-xl text-center lg:py-24">
+    <h1
+      class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl"
+    >
+      Sistema de Compra y Venta de <span class="text-brand">Café</span>
+    </h1>
+    <p
+      class="mb-8 max-w-2xl mx-auto text-base font-normal text-gray-600 dark:text-gray-300 lg:text-lg"
+    >
+      Plataforma integral para la gestión de café en verde o en bruto. Controla tus compras,
+      productores y la trazabilidad de tu producto desde un solo lugar.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <coffee-button variant="primary" size="base" (click)="goToPurchases()">
+        <svg
+          icon
+          class="w-5 h-5 me-2 -ms-1"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+          />
+        </svg>
+        Ver Compras
+      </coffee-button>
+      <coffee-button variant="secondary" size="base" (click)="goToProducers()">
+        <svg
+          icon
+          class="w-5 h-5 me-2 -ms-1"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-4 7a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z"
+          />
+        </svg>
+        Ver Productores
+      </coffee-button>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gray-50 dark:bg-gray-900">
+  <div class="py-12 px-4 mx-auto max-w-screen-xl lg:py-20">
+    <div class="max-w-screen-md mb-10 lg:mb-16 text-center mx-auto">
+      <h2
+        class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl"
+      >
+        Funcionalidades principales
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 sm:text-lg">
+        Todo lo que necesitas para gestionar tu negocio de café
+      </p>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-3">
+      <div
+        class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:shadow-md transition-shadow"
+      >
+        <div
+          class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700"
+        >
+          <svg
+            class="w-6 h-6 text-brand"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+            />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Gestión de Compras</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Registra y administra todas tus compras de café en verde con detalles del productor,
+          tipo, variedad y precio.
+        </p>
+      </div>
+
+      <div
+        class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:shadow-md transition-shadow"
+      >
+        <div
+          class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700"
+        >
+          <svg
+            class="w-6 h-6 text-brand"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-4 7a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z"
+            />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Gestión de Productores</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Mantén un registro completo de los productores con información de contacto y
+          trazabilidad.
+        </p>
+      </div>
+
+      <div
+        class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:shadow-md transition-shadow"
+      >
+        <div
+          class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700"
+        >
+          <svg
+            class="w-6 h-6 text-brand"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </div>
+        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Control de Calidad</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Registra características como rendimiento, tamaño de grano y humedad para asegurar la
+          calidad de cada compra.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

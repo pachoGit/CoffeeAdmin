@@ -13,10 +13,17 @@ import { DataSelectCoffeeProducerResponse } from '../../../services/coffee-produ
 import { DataSelectCoffeeTypeResponse } from '../../../services/coffee-type/response/select-coffee-type.response';
 import { DataSelectCoffeeVarietyResponse } from '../../../services/coffee-variety/response/select-coffee-variety.response';
 import { DataSelectMeasurementUnitCoffeeResponse } from '../../../services/measurement-unit-coffee/response/select-measurement-unit-coffee.response';
+import {
+  AppInputDirective,
+  AppInputDetailDirective,
+  AppInputReadonlyDirective,
+  AppLabelDirective,
+  AppErrorMessageDirective,
+} from '../../../shared/directives';
 
 @Component({
   selector: 'coffee-edit-purchases',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, AppInputDirective, AppInputDetailDirective, AppInputReadonlyDirective, AppLabelDirective, AppErrorMessageDirective],
   templateUrl: './edit-purchases.html',
   styleUrl: './edit-purchases.css',
 })

@@ -7,24 +7,20 @@
         <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
           <div class="mb-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-              Información de la Compra
+              Informaci&oacute;n de la Compra
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label
-                  for="coffeeProducerId"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Productor de Café
+                <label for="coffeeProducerId" appLabel>
+                  Productor de Caf&eacute; <span class="text-red-600">*</span>
                 </label>
                 <select
                   id="coffeeProducerId"
                   formControlName="coffeeProducerId"
-                  [class]="
+                  appInput
+                  [class.input-error]="
                     purchaseForm.get('coffeeProducerId')?.invalid &&
                     purchaseForm.get('coffeeProducerId')?.touched
-                      ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
-                      : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
                   "
                 >
                   <option [ngValue]="null">Seleccionar productor</option>
@@ -36,51 +32,40 @@
                   purchaseForm.get('coffeeProducerId')?.invalid &&
                   purchaseForm.get('coffeeProducerId')?.touched
                 ) {
-                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">
-                    El productor es requerido
-                  </p>
+                  <p appErrorMessage>El productor es requerido</p>
                 }
               </div>
 
               <div>
-                <label
-                  for="purchaseDate"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Fecha de Compra
+                <label for="purchaseDate" appLabel>
+                  Fecha de Compra <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="date"
                   id="purchaseDate"
                   formControlName="purchaseDate"
-                  [class]="
+                  appInput
+                  [class.input-error]="
                     purchaseForm.get('purchaseDate')?.invalid &&
                     purchaseForm.get('purchaseDate')?.touched
-                      ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
-                      : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
                   "
                 />
                 @if (
                   purchaseForm.get('purchaseDate')?.invalid &&
                   purchaseForm.get('purchaseDate')?.touched
                 ) {
-                  <p class="mt-1 text-sm text-red-600 dark:text-red-400">La fecha es requerida</p>
+                  <p appErrorMessage>La fecha es requerida</p>
                 }
               </div>
 
               <div>
-                <label
-                  for="totalCost"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Costo Total
-                </label>
+                <label for="totalCost" appLabel>Costo Total</label>
                 <input
                   type="text"
                   id="totalCost"
                   [value]="formattedTotalCost()"
                   readonly
-                  class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300 cursor-not-allowed"
+                  appInputReadonly
                 />
               </div>
             </div>
@@ -141,54 +126,43 @@
                   <div [formGroupName]="i">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
                       <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Rendimiento
-                        </label>
+                        <label appLabel>Rendimiento</label>
                         <input
                           type="number"
                           formControlName="performance"
                           step="0.01"
                           min="0"
                           max="100"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          appInputDetail
                         />
                       </div>
 
                       <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Tamaño de grano
-                        </label>
+                        <label appLabel>Tama&ntilde;o de grano</label>
                         <input
                           type="number"
                           formControlName="screenSize"
                           step="0.01"
                           min="0"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          appInputDetail
                         />
                       </div>
 
                       <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Humedad %
-                        </label>
+                        <label appLabel>Humedad %</label>
                         <input
                           type="number"
                           formControlName="humidity"
                           step="0.01"
                           min="0"
                           max="100"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                          appInputDetail
                         />
                       </div>
 
                       <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Variedad de Café
-                        </label>
-                        <select
-                          formControlName="coffeeVarietyId"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
-                        >
+                        <label appLabel>Variedad de Caf&eacute;</label>
+                        <select formControlName="coffeeVarietyId" appInputDetail>
                           <option [ngValue]="null">Seleccionar variedad</option>
                           @for (variety of coffeeVarieties(); track variety.id) {
                             <option [ngValue]="variety.id">{{ variety.name }}</option>
@@ -197,16 +171,15 @@
                       </div>
 
                       <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                          Tipo de Café
+                        <label appLabel>
+                          Tipo de Caf&eacute; <span class="text-red-600">*</span>
                         </label>
                         <select
                           formControlName="coffeeTypeId"
-                          [class]="
+                          appInputDetail
+                          [class.input-error]="
                             detail.get('coffeeTypeId')?.invalid &&
                             detail.get('coffeeTypeId')?.touched
-                              ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
-                              : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white'
                           "
                         >
                           <option [ngValue]="null">Seleccionar tipo</option>
@@ -217,31 +190,26 @@
                         @if (
                           detail.get('coffeeTypeId')?.invalid && detail.get('coffeeTypeId')?.touched
                         ) {
-                          <p class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            El tipo es requerido
-                          </p>
+                          <p appErrorMessage>El tipo es requerido</p>
                         }
                       </div>
                     </div>
 
                     <div formGroupName="purchaseBatch">
                       <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                        Información del Lote
+                        Informaci&oacute;n del Lote
                       </h4>
                       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Unidad de Medida
+                          <label appLabel>
+                            Unidad de Medida <span class="text-red-600">*</span>
                           </label>
                           <select
                             formControlName="measurementUnitCoffeeId"
-                            [class]="
+                            appInputDetail
+                            [class.input-error]="
                               detail.get('purchaseBatch.measurementUnitCoffeeId')?.invalid &&
                               detail.get('purchaseBatch.measurementUnitCoffeeId')?.touched
-                                ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-red-100 dark:border-red-400'
-                                : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white'
                             "
                           >
                             <option [ngValue]="null">Seleccionar unidad</option>
@@ -253,69 +221,51 @@
                             detail.get('purchaseBatch.measurementUnitCoffeeId')?.invalid &&
                             detail.get('purchaseBatch.measurementUnitCoffeeId')?.touched
                           ) {
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">
-                              La unidad es requerida
-                            </p>
+                            <p appErrorMessage>La unidad es requerida</p>
                           }
                         </div>
 
                         <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Cantidad
-                          </label>
+                          <label appLabel>Cantidad</label>
                           <input
                             type="number"
                             formControlName="amount"
                             step="0.01"
                             min="0"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                            appInputDetail
                           />
                         </div>
 
                         <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Precio Compra Lote
-                          </label>
+                          <label appLabel>Precio Compra Lote</label>
                           <input
                             type="number"
                             formControlName="batchPurchasePrice"
                             step="0.01"
                             min="0"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                            appInputDetail
                           />
                         </div>
 
                         <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Precio Mercado
-                          </label>
+                          <label appLabel>Precio Mercado</label>
                           <input
                             type="number"
                             formControlName="coffeeMarketPrice"
                             step="0.01"
                             min="0"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                            appInputDetail
                           />
                         </div>
 
                         <div>
-                          <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                          >
-                            Precio Venta Esperado
-                          </label>
+                          <label appLabel>Precio Venta Esperado</label>
                           <input
                             type="number"
                             formControlName="expectedBatchSellingPrice"
                             step="0.01"
                             min="0"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                            appInputDetail
                           />
                         </div>
                       </div>
