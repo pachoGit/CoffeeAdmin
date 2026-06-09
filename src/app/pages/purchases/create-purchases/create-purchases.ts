@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CreatePurchaseFormManager } from '../common';
 import { PurchaseService } from '../../../services/purchases/purchase-service';
@@ -12,6 +13,8 @@ import { DataSelectCoffeeProducerResponse } from '../../../services/coffee-produ
 import { DataSelectCoffeeTypeResponse } from '../../../services/coffee-type/response/select-coffee-type.response';
 import { DataSelectCoffeeVarietyResponse } from '../../../services/coffee-variety/response/select-coffee-variety.response';
 import { DataSelectMeasurementUnitCoffeeResponse } from '../../../services/measurement-unit-coffee/response/select-measurement-unit-coffee.response';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { ButtonComponent } from '../../../shared/components/button';
 import {
   AppInputDirective,
   AppInputDetailDirective,
@@ -22,11 +25,22 @@ import {
 
 @Component({
   selector: 'coffee-create-purchases',
-  imports: [ReactiveFormsModule, CommonModule, AppInputDirective, AppInputDetailDirective, AppInputReadonlyDirective, AppLabelDirective, AppErrorMessageDirective],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ButtonComponent,
+    AppInputDirective,
+    AppInputDetailDirective,
+    AppInputReadonlyDirective,
+    AppLabelDirective,
+    AppErrorMessageDirective,
+  ],
   templateUrl: './create-purchases.html',
   styleUrl: './create-purchases.css',
 })
 export class CreatePurchases implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
   private purchaseService = inject(PurchaseService);
   private coffeeProducerService = inject(CoffeeProducerService);
   private coffeeTypeService = inject(CoffeeTypeService);
@@ -43,6 +57,7 @@ export class CreatePurchases implements OnInit, OnDestroy {
   public measurementUnits = signal<DataSelectMeasurementUnitCoffeeResponse[]>([]);
 
   public detailPrices = signal<number[]>([]);
+  public loading = signal(false);
 
   public formattedTotalCost = computed(() =>
     this.purchaseFormManager.formatPrice(
@@ -111,19 +126,28 @@ export class CreatePurchases implements OnInit, OnDestroy {
     return this.purchaseFormManager.formatPrice(value);
   }
 
+  goBack(): void {
+    this.router.navigate(['/purchases']);
+  }
+
   onSubmit(): void {
     if (this.purchaseForm.invalid) {
       this.purchaseForm.markAllAsTouched();
       return;
     }
 
+    this.loading.set(true);
     const request = this.purchaseFormManager.transformToRequest();
     this.purchaseService.create(request).subscribe({
       next: (response) => {
-        console.log('Purchase created successfully', response);
+        console.log(response);
+        this.loading.set(false);
+        this.notificationService.show('Compra creada exitosamente');
+        this.router.navigate(['/purchases', response.data.purchaseId]);
       },
-      error: (error) => {
-        console.error('Error creating purchase', error);
+      error: () => {
+        this.loading.set(false);
+        this.notificationService.show('Error al crear la compra', 'error');
       },
     });
   }

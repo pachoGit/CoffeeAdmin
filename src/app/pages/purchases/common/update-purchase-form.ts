@@ -47,7 +47,7 @@ export class UpdatePurchaseFormManager extends BasePurchaseFormManager<UpdatePur
     data.detailPurchases.forEach((detail) => {
       const detailForm = this.createDetailPurchaseForm();
       detailForm.patchValue({
-        performance: detail.scoreSCA,
+        performance: detail.performance,
         screenSize: detail.screenSize,
         humidity: detail.humidity,
         coffeeVarietyId: detail.coffeeVariety?.id ?? null,

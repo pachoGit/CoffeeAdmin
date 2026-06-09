@@ -16,7 +16,7 @@ export interface CoffeeProducerGetPurchase {
 
 export interface DetailPurchaseGetPurchase {
   id: number;
-  scoreSCA: number;
+  performance: number;
   screenSize: number;
   humidity: number;
   coffeeVariety: CoffeeVarietyGetPurchase | null;

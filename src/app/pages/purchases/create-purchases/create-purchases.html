@@ -286,19 +286,20 @@
           </div>
 
           <div class="flex justify-end gap-4">
-            <button
+            <coffee-button
               type="button"
-              class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-600"
+              variant="secondary"
+              (click)="goBack()"
             >
               Cancelar
-            </button>
-            <button
+            </coffee-button>
+            <coffee-button
               type="submit"
               [disabled]="purchaseForm.invalid"
-              class="px-4 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              [loading]="loading()"
             >
               Guardar Compra
-            </button>
+            </coffee-button>
           </div>
         </form>
       </div>

@@ -61,10 +61,12 @@
             </h2>
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
                   <tr>
                     <th scope="col" class="px-4 py-3">#</th>
-                    <th scope="col" class="px-4 py-3">Score SCA</th>
+                    <th scope="col" class="px-4 py-3">Rendimiento</th>
                     <th scope="col" class="px-4 py-3">Tamaño</th>
                     <th scope="col" class="px-4 py-3">Humedad</th>
                     <th scope="col" class="px-4 py-3">Variedad</th>
@@ -81,7 +83,7 @@
                       <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
                         {{ i + 1 }}
                       </td>
-                      <td class="px-4 py-3">{{ detail.scoreSCA }}</td>
+                      <td class="px-4 py-3">{{ detail.performance }}</td>
                       <td class="px-4 py-3">{{ detail.screenSize }}</td>
                       <td class="px-4 py-3">{{ detail.humidity }}%</td>
                       <td class="px-4 py-3">
