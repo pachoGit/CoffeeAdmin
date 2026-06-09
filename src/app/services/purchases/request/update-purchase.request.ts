@@ -18,5 +18,6 @@ export class PurchaseBatchUpdateRequest {
   public amount: number = 0;
   public coffeeMarketPrice: number = 0;
   public batchPurchasePrice: number = 0;
+  public totalPurchasePrice: number = 0;
   public expectedBatchSellingPrice: number | null = null;
 }

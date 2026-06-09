@@ -42,6 +42,7 @@ export interface PurchaseBatchGetPurchase {
   amount: number;
   coffeeMarketPrice: number;
   expectedBatchSellingPrice: number | null;
+  totalPurchasePrice: number;
 }
 
 export interface MeasurementUnitGetPurchase {

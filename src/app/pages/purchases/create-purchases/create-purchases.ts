@@ -2,7 +2,7 @@ import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { PurchaseFormManager } from '../common/purchase-form';
+import { CreatePurchaseFormManager } from '../common';
 import { PurchaseService } from '../../../services/purchases/purchase-service';
 import { CoffeeProducerService } from '../../../services/coffee-producer/coffee-producer.service';
 import { CoffeeTypeService } from '../../../services/coffee-type/coffee-type-service';
@@ -33,7 +33,7 @@ export class CreatePurchases implements OnInit, OnDestroy {
   private coffeeVarietyService = inject(CoffeeVarietyService);
   private measurementUnitCoffeeService = inject(MeasurementUnitCoffeeService);
 
-  private purchaseFormManager = new PurchaseFormManager();
+  private purchaseFormManager = new CreatePurchaseFormManager();
   public purchaseForm = this.purchaseFormManager.getForm();
   private priceSubscription?: Subscription;
 

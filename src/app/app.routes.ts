@@ -13,6 +13,17 @@ export const routes: Routes = [
   },
 
   {
+    path: 'overview',
+    loadChildren: () => import('./pages/overview/overview.routes').then((m) => m.routes),
+  },
+
+  {
+    path: 'coffee-producers',
+    loadChildren: () =>
+      import('./pages/coffee-producers/coffee-producers.routes').then((m) => m.routes),
+  },
+
+  {
     path: 'coffee-producers',
     loadChildren: () =>
       import('./pages/coffee-producers/coffee-producers.routes').then((m) => m.routes),

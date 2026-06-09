@@ -3,7 +3,7 @@ import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PurchaseFormManager } from '../common/purchase-form';
+import { UpdatePurchaseFormManager } from '../common';
 import { PurchaseService } from '../../../services/purchases/purchase-service';
 import { CoffeeProducerService } from '../../../services/coffee-producer/coffee-producer.service';
 import { CoffeeTypeService } from '../../../services/coffee-type/coffee-type-service';
@@ -36,7 +36,7 @@ export class EditPurchases implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  private purchaseFormManager = new PurchaseFormManager();
+  private purchaseFormManager = new UpdatePurchaseFormManager();
   public purchaseForm = this.purchaseFormManager.getForm();
   private priceSubscription?: Subscription;
 
@@ -141,7 +141,7 @@ export class EditPurchases implements OnInit, OnDestroy {
       return;
     }
 
-    const request = this.purchaseFormManager.transformToUpdateRequest();
+    const request = this.purchaseFormManager.transformToRequest();
     this.purchaseService.update(this.purchaseId, request).subscribe({
       next: () => {
         this.router.navigate(['/purchases', this.purchaseId]);
